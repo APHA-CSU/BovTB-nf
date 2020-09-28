@@ -24,13 +24,10 @@ jobs:
     docker:
       # Circleci base ubuntu image
       - image: cimg/base:2020.01
-    parameters:
-      tag:
-        type: string
     steps:
       - checkout
       - setup_remote_docker
-      - run: bash -e tests/jobs/build.bash << parameters.tag >> $DOCKER_USER $DOCKER_PASS
+      - run: bash -e tests/jobs/build.bash $CIRCLE_BRANCH $DOCKER_USER $DOCKER_PASS
 
   tinyreads:
     executor: nf-pipeline
