@@ -15,6 +15,7 @@ DOCKER_PASS=$3
 REPO=aaronsfishman/bov-tb
 LATEST_DOCKERFILE_URL="https://raw.githubusercontent.com/APHA-CSU/BovTB-nf/master/Dockerfile"
 ENDPOINT=$REPO:$TAG
+LATEST=$REPO:latest
 
 # Login
 echo $DOCKER_PASS | docker login -u $DOCKER_USER --password-stdin
@@ -23,7 +24,8 @@ echo $DOCKER_PASS | docker login -u $DOCKER_USER --password-stdin
 if ! curl $LATEST_DOCKERFILE_URL | cmp ./Dockerfile >/dev/null 2>&1; then
     docker build -t $ENDPOINT .
 else
-    docker tag $REPO:latest $ENDPOINT
+    docker pull $LATEST 
+    docker tag $LATEST $ENDPOINT
 fi
 
 # Push
